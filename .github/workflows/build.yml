@@ -7,6 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,6 +33,10 @@ jobs:
         run: |
           mkdir -p appsrc
           ZIP_FILE=$(find . -maxdepth 1 -name '*.zip' -print -quit)
+          if [ -z "$ZIP_FILE" ]; then
+            echo "Project ZIP not found"
+            exit 1
+          fi
           unzip -q "$ZIP_FILE" -d appsrc
 
       - name: Build APK
